@@ -23,7 +23,6 @@ int pow (int exp){
     return aux;
 }
 
-
 void swapCod (sirADN cod)
 {
     for(int i = 0; i<strlen(cod); i++)
@@ -40,5 +39,17 @@ void swapCod (sirADN cod)
         }
 }
 
+int solution[MAX_ADN];
+
+void write(int k, char sirADN[MAX_ADN]) {
+    int i;
+    for (i = 0; i < k; i++) {
+        if (solution[i] == -1) sirADN[k - 1 - i] = 'T';
+        if (solution[i] == 0) sirADN[k - 1 - i] = 'A';
+        if (solution[i] == 1) sirADN[k - 1 - i] = 'C';
+        if (solution[i] == 2) sirADN[k - 1 - i] = 'G';
+    }
+    sirADN[k] = '\0';
+}
 
 #endif //DNA_CODIF_DEFS_H

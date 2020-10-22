@@ -19,45 +19,47 @@ void decodificareADN (sirADN cod, long &nr){
 
 void codificareADN(long nr, sirADN cod)
 {
-    int lungime = 0; bool pozitiv = true;
+    int index = 0, rest, cat, ok;
 
-    if(nr >= 0){
-        while(nr > pow(lungime) *2.5){
-            cod[lungime++] = 0;
+    if(nr > 0){         //pentru nr pozitive
+        while(nr){
+            ok = 0;
+            rest = nr % 4;
+
+            if(rest % 4 != 3)
+                solution[index++] = rest;
+            else{
+                cat = nr / 4;
+                cat++;
+                solution[index++] = nr - cat*4;
+                ok = 1;
+            }
+
+            if(!ok)
+                nr = nr/4;
+            else nr = cat;
         }
-        cod[lungime] = 0;
+    }
+    else
+    {
+        while (nr != 0){    //pt nr negative
+            ok = 0;
+            rest = nr % 4;
+            if(rest % 4 != 3)
+                solution[index ++] = rest;
+            else{
+                cat = nr / 4;
+                cat --;
+                solution[index ++ ] = nr - cat*4;
+                ok = 1;
+            }
+            if(!ok)
+                nr = nr/4;
+            else nr = cat;
+        }
     }
 
-    if(nr < 0){
-        int sum = 2;
-        pozitiv = false;
-        nr = -nr;
-        while( nr>= sum){
-            cod[lungime++] = 0;
-            sum+=pow(lungime);
-        }
-        cod[lungime] = 0;
-    }
-
-    for(int i = lungime; i>=0; i--){
-        int rest = nr % 4;
-        switch (rest){
-            case 0: break;
-            case 1: pozitiv ? cod[i] ++ : cod[i] --; break;
-            case 2: cod[i]+=2; pozitiv ? : cod[i-1] -=1; break;
-            case 3: pozitiv ? cod[i] --, cod[i-1]++ : cod[i] ++, cod[i-1] --; break;
-
-        }
-
-        switch (cod[i]) {
-            case 3: cod[i]--, cod[i-1]++; break;
-            case -2: cod[i] = 2, cod[i-1] --; break;
-            case -3: cod[i] = 1, cod[i-1]--; break;
-        }
-
-        nr/=4;
-    }
-    swapCod(cod);
+    write(index, cod);
 }
 
 void adunareADN(sirADN first, sirADN second, sirADN sum){
@@ -70,11 +72,6 @@ void adunareADN(sirADN first, sirADN second, sirADN sum){
 
 int main() {
 
-    sirADN sir; long nr;
-    codificareADN(27,sir);
-    std::cout << sir << '\n';
-    decodificareADN(sir, nr);
-    std::cout << nr;
     return 0;
 }
 
